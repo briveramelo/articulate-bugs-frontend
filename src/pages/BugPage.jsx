@@ -1,5 +1,5 @@
 import React from 'react';
-import BugTable from '/src/components/BugTable.jsx';
+import BugTable from 'src/components/BugTable.jsx';
 import { Box, Container } from '@mui/material';
 
 const BugPage = () => (

@@ -1,29 +1,17 @@
 import React from 'react';
 import {
     Table, TableBody, TableCell, TableContainer,
-    TableHead, TableRow, Paper
+    TableHead, TableRow, Paper, Box, CircularProgress
 } from '@mui/material';
+import {useBugs} from "src/hooks/useBugData.js";
 
-// Sample data
-const bugs = [
-    {
-        id: 'BUG-001',
-        description: 'App crashes on launch',
-        severity: 'Critical',
-        steps: 'Open app → crash',
-        status: 'Open'
-    },
-    {
-        id: 'BUG-002',
-        description: 'Login form not submitting',
-        severity: 'High',
-        steps: 'Enter credentials → Click login → Nothing happens',
-        status: 'In Progress'
-    }
-];
+const BugTable = () => {
+    const {bugs, loading, error} = useBugs();
 
-const BugTable = () => (
-    <TableContainer component={Paper}>
+    if (loading) return <Box textAlign="center"><CircularProgress/></Box>;
+    if (error) return <Box color="error.main">Failed to load bugs.</Box>;
+
+    return (<TableContainer component={Paper}>
         <Table>
             <TableHead>
                 <TableRow>
@@ -37,7 +25,7 @@ const BugTable = () => (
             <TableBody>
                 {bugs.map((bug) => (
                     <TableRow key={bug.id}>
-                        <TableCell>{bug.id}</TableCell>
+                        <TableCell>{bug.bugId}</TableCell>
                         <TableCell>{bug.description}</TableCell>
                         <TableCell>{bug.severity}</TableCell>
                         <TableCell>{bug.steps}</TableCell>
@@ -47,6 +35,7 @@ const BugTable = () => (
             </TableBody>
         </Table>
     </TableContainer>
-);
+    )
+};
 
 export default BugTable;
