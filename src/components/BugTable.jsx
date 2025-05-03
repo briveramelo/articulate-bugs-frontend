@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {
     Table, TableBody, TableCell, TableContainer,
-    TableHead, TableRow, Paper, Box, CircularProgress
+    TableHead, TableRow, Paper, Box, CircularProgress, Button
 } from '@mui/material';
 import {useBugData} from "src/hooks/useBugData.js";
 import SortableHeaderCell from "src/components/SortableHeaderCell.jsx";
@@ -12,6 +12,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import IconButton from '@mui/material/IconButton';
 import EditableBugRow from 'src/components/EditableBugRow';
 import { useEditBug } from 'src/hooks/useEditBug';
+import {useAddBug} from "src/hooks/useAddBug.js";
 
 const BugTable = () => {
     const [searchTerm, setSearchTerm] = useState('');
@@ -21,6 +22,8 @@ const BugTable = () => {
     const { updateBug, loading: editLoading } = useEditBug();
     const filteredItems = useSearchableData(bugs, searchTerm);
     const { sortedItems, requestSort, sortConfig } = useSortableData(filteredItems);
+    const [isAdding, setIsAdding] = useState(false);
+    const { addBug, loading: addLoading } = useAddBug();
 
     const handleEditSubmit = async (form) => {
         if (editLoading) return; // Prevent duplicate submits
@@ -38,12 +41,34 @@ const BugTable = () => {
         }
     };
 
+    const handleAddBug = async (form) => {
+        const nextBugNumber = bugs.length + 1; //todo: handle race condition server-side
+        const bugId = `BUG-${String(nextBugNumber).padStart(2, '0')}`;
+
+        const success = await addBug({
+            'Bug ID': bugId,
+            'Description': form.description,
+            'Severity': form.severity,
+            'Steps to Reproduce': form.steps,
+            'Status': form.status,
+        });
+        setIsAdding(false);
+        if (success) {
+            reloadBugData();
+        }
+    }
+
     if (loading) return <Box textAlign="center"><CircularProgress/></Box>;
     if (error) return <Box color="error.main">Failed to load bugs.</Box>;
 
     return (
         <>
             <SearchBox searchTerm={searchTerm} onChange={setSearchTerm} />
+            <Box sx={{ display: 'flex', justifyContent: 'flex-start', mb: 2 }}>
+                <Button variant="outlined" onClick={() => setIsAdding(true)}>
+                    + Add Bug
+                </Button>
+            </Box>
             <TableContainer component={Paper}>
         <Table>
             <TableHead>
@@ -72,6 +97,15 @@ const BugTable = () => {
                 </TableRow>
             </TableHead>
             <TableBody>
+                {isAdding && (
+                    <EditableBugRow
+                        key="new"
+                        onCancel={() => setIsAdding(false)}
+                        onSubmit={handleAddBug}
+                        loading={addLoading}
+                        isNew={true}
+                    />
+                )}
                 {sortedItems.map((bug) =>
                     editingId === bug.id ? (
                         <EditableBugRow

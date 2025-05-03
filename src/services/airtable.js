@@ -28,3 +28,7 @@ export const fetchBugs = async () => {
 export const updateBugRecord = async (recordId, updates) => {
     return base(TABLE_NAME).update(recordId, updates);
 };
+
+export const addBugRecord = async (fields) => {
+    return base(TABLE_NAME).create([{ fields }]);
+};

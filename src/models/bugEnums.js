@@ -6,7 +6,7 @@ export const SeverityMap = {
 };
 
 export const StatusMap = {
-    'Open': 10,
+    'New': 10,
     'In Progress': 20,
     'Resolved': 30,
     'Closed': 40
