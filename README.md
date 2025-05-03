@@ -1,12 +1,55 @@
-# React + Vite
+# 🐞 Bug Tracker UI
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern, modular React-based bug tracking interface built with Vite, Material UI, and Airtable.
 
-Currently, two official plugins are available:
+This app allows users to **view**, **search**, **sort**, **add**, **edit**, and **delete** bugs, with data persisted to Airtable via API integration.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## Expanding the ESLint configuration
+## ✨ Features
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- 🔍 **Search** bugs by any field (case-insensitive, real-time)
+- 📊 **Sort** by `Severity`, `Status`, or `Bug ID`
+- 📝 **Edit** bug entries inline with dropdown enums
+- ➕ **Add new** bugs via a top-row editor with required validation
+- ❌ **Delete** bugs with confirmation modal
+- 💾 Airtable API integration (via `airtable.js` service)
+
+---
+
+## 🧱 Tech Stack
+
+- ⚛️ **React** (via Vite)
+- 🎨 **Material UI (MUI)** for styling
+- 🧩 **Modular architecture** (hooks, components, models, services)
+- ☁️ **Airtable** for persistent data storage
+
+---
+
+## 📁 Project Structure
+
+- ├── src/
+- │ ├── components/ # UI components (table, modal, inputs)
+- │ ├── hooks/ # Custom hooks (data fetching, sorting, editing)
+- │ ├── models/ # Enum definitions
+- │ ├── pages/ # Page-level components
+- │ ├── services/ # Airtable API integration
+- │ └── data/ # Optional test data
+
+---
+
+## 🚀 Getting Started
+
+### 1. Install dependencies
+`npm install`
+
+### 2. Start development server
+`npm run dev`
+
+### 3. Build
+- `npm run build`
+- `npm run preview`
+
+### 4. Notes
+- security concern re: AirTable Personal Access Token (PAT)
+- UI coloring yet incomplete

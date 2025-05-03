@@ -14,7 +14,6 @@ export const fetchBugs = async () => {
         .select({ view: 'Grid view' })
         .all();
 
-    console.log(records);
     return records.map((record) => ({
         id: record.id,
         bugId: record.get('Bug ID') || '',
