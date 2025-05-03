@@ -31,6 +31,7 @@ const EditableBugRow = ({ bug = {}, onCancel, onSubmit, loading, isNew = false }
         <>
             <TableRow>
                 <TableCell />
+                <TableCell />
                 <TableCell>{isNew ? '—' : bug.bugId}</TableCell>
                 <TableCell>
                     <TextField
