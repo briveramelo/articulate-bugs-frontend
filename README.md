@@ -28,14 +28,18 @@ This app allows users to **view**, **search**, **sort**, **add**, **edit**, and 
 
 ## 📁 Project Structure
 
-- ├── src/
-- │ ├── components/ # UI components (table, modal, inputs)
-- │ ├── hooks/ # Custom hooks (data fetching, sorting, editing)
-- │ ├── models/ # Enum definitions
-- │ ├── pages/ # Page-level components
-- │ ├── services/ # Airtable API integration
-- │ └── data/ # Optional test data
+## 📁 Project Structure
 
+- `src/`
+    - `components/` – Reusable UI components including table, modals, inputs, and dropdowns
+        - `attachments/` – Components specifically for rendering file attachments
+            - `renderers/` – Strategy components for different MIME types (e.g., images)
+    - `hooks/` – Custom React hooks for fetching, filtering, editing, and managing bug data
+    - `models/` – Centralized data maps and enum definitions for consistent use across UI
+    - `pages/` – Page-level layout components (e.g., `BugPage`)
+    - `services/` – Airtable API integration logic (CRUD operations)
+    - `data/` – Test data or local dev seed content
+    - `assets/` – Static assets such as logos or SVGs
 ---
 
 ## 🚀 Getting Started
