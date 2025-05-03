@@ -4,9 +4,12 @@ import {
     TableHead, TableRow, Paper, Box, CircularProgress
 } from '@mui/material';
 import {useBugs} from "src/hooks/useBugData.js";
+import SortableHeaderCell from "src/components/SortableHeaderCell.jsx";
+import { useSortableData } from 'src/hooks/useSortableData';
 
 const BugTable = () => {
-    const {bugs, loading, error} = useBugs();
+    const { bugs, loading, error } = useBugs();
+    const { sortedItems, requestSort, sortConfig } = useSortableData(bugs);
 
     if (loading) return <Box textAlign="center"><CircularProgress/></Box>;
     if (error) return <Box color="error.main">Failed to load bugs.</Box>;
@@ -15,15 +18,30 @@ const BugTable = () => {
         <Table>
             <TableHead>
                 <TableRow>
-                    <TableCell>Bug ID</TableCell>
+                    <SortableHeaderCell
+                        columnKey="bugId"
+                        label="Bug ID"
+                        sortConfig={sortConfig}
+                        onRequestSort={requestSort}
+                    />
                     <TableCell>Description</TableCell>
-                    <TableCell>Severity</TableCell>
+                    <SortableHeaderCell
+                        columnKey="severity"
+                        label="Severity"
+                        sortConfig={sortConfig}
+                        onRequestSort={requestSort}
+                    />
                     <TableCell>Steps to Reproduce</TableCell>
-                    <TableCell>Status</TableCell>
+                    <SortableHeaderCell
+                        columnKey="status"
+                        label="Status"
+                        sortConfig={sortConfig}
+                        onRequestSort={requestSort}
+                    />
                 </TableRow>
             </TableHead>
             <TableBody>
-                {bugs.map((bug) => (
+                {sortedItems.map((bug) => (
                     <TableRow key={bug.id}>
                         <TableCell>{bug.bugId}</TableCell>
                         <TableCell>{bug.description}</TableCell>
