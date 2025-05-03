@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
     Table, TableBody, TableCell, TableContainer,
     TableHead, TableRow, Paper, Box, CircularProgress
@@ -6,15 +6,23 @@ import {
 import {useBugs} from "src/hooks/useBugData.js";
 import SortableHeaderCell from "src/components/SortableHeaderCell.jsx";
 import { useSortableData } from 'src/hooks/useSortableData';
+import {useSearchableData} from "src/hooks/useSearchableData.js";
+import SearchBox from "src/components/SearchBox.jsx";
 
 const BugTable = () => {
     const { bugs, loading, error } = useBugs();
-    const { sortedItems, requestSort, sortConfig } = useSortableData(bugs);
+    const [searchTerm, setSearchTerm] = useState('');
+
+    const filteredItems = useSearchableData(bugs, searchTerm);
+    const { sortedItems, requestSort, sortConfig } = useSortableData(filteredItems);
 
     if (loading) return <Box textAlign="center"><CircularProgress/></Box>;
     if (error) return <Box color="error.main">Failed to load bugs.</Box>;
 
-    return (<TableContainer component={Paper}>
+    return (
+        <>
+            <SearchBox searchTerm={searchTerm} onChange={setSearchTerm} />
+            <TableContainer component={Paper}>
         <Table>
             <TableHead>
                 <TableRow>
@@ -53,6 +61,7 @@ const BugTable = () => {
             </TableBody>
         </Table>
     </TableContainer>
+    </>
     )
 };
 
