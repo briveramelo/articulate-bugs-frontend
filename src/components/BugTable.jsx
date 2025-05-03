@@ -16,6 +16,7 @@ import {useAddBug} from "src/hooks/useAddBug.js";
 import ConfirmDeleteModal from 'src/components/ConfirmDeleteModal';
 import { useDeleteBug } from 'src/hooks/useDeleteBug';
 import DeleteIcon from '@mui/icons-material/Close';
+import AttachmentCell from 'src/components/attachments/AttachmentCell.jsx';
 
 const BugTable = () => {
     const [searchTerm, setSearchTerm] = useState('');
@@ -111,6 +112,7 @@ const BugTable = () => {
                         sortConfig={sortConfig}
                         onRequestSort={requestSort}
                     />
+                    <TableCell>Attachments</TableCell>
                 </TableRow>
             </TableHead>
             <TableBody>
@@ -149,6 +151,9 @@ const BugTable = () => {
                             <TableCell>{bug.severity}</TableCell>
                             <TableCell>{bug.steps}</TableCell>
                             <TableCell>{bug.status}</TableCell>
+                            <TableCell>
+                                <AttachmentCell attachments={bug.attachments} />
+                            </TableCell>
                         </TableRow>
                     )
                 )}

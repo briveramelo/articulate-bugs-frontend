@@ -65,6 +65,8 @@ const EditableBugRow = ({ bug = {}, onCancel, onSubmit, loading, isNew = false }
                         onChange={(val) => setForm((prev) => ({ ...prev, status: val }))}
                     />
                 </TableCell>
+                {/* todo: add support for adding/removing attachments */}
+                <TableCell>Attachments</TableCell>
             </TableRow>
             <TableRow>
                 <TableCell colSpan={5}>

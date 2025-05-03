@@ -21,6 +21,7 @@ export const fetchBugs = async () => {
         severity: record.get('Severity') || '',
         steps: record.get('Steps to Reproduce') || '',
         status: record.get('Status') || '',
+        attachments: record.get('Attachments') || [],
     }));
 };
 
