@@ -43,7 +43,7 @@ const BugTable = () => {
 
     const handleAddBug = async (form) => {
         const nextBugNumber = bugs.length + 1; //todo: handle race condition server-side
-        const bugId = `BUG-${String(nextBugNumber).padStart(2, '0')}`;
+        const bugId = `BUG-${String(nextBugNumber).padStart(3, '0')}`;
 
         const success = await addBug({
             'Bug ID': bugId,
@@ -73,7 +73,8 @@ const BugTable = () => {
         <Table>
             <TableHead>
                 <TableRow>
-                    <TableCell /> {/* Edit icon column */}
+                    {/* Edit icon column */}
+                    <TableCell />
                     <SortableHeaderCell
                         columnKey="bugId"
                         label="Bug ID"
