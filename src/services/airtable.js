@@ -24,3 +24,7 @@ export const fetchBugs = async () => {
         status: record.get('Status') || '',
     }));
 };
+
+export const updateBugRecord = async (recordId, updates) => {
+    return base(TABLE_NAME).update(recordId, updates);
+};
