@@ -13,6 +13,9 @@ import IconButton from '@mui/material/IconButton';
 import EditableBugRow from 'src/components/EditableBugRow';
 import { useEditBug } from 'src/hooks/useEditBug';
 import {useAddBug} from "src/hooks/useAddBug.js";
+import ConfirmDeleteModal from 'src/components/ConfirmDeleteModal';
+import { useDeleteBug } from 'src/hooks/useDeleteBug';
+import DeleteIcon from '@mui/icons-material/Close';
 
 const BugTable = () => {
     const [searchTerm, setSearchTerm] = useState('');
@@ -24,6 +27,8 @@ const BugTable = () => {
     const { sortedItems, requestSort, sortConfig } = useSortableData(filteredItems);
     const [isAdding, setIsAdding] = useState(false);
     const { addBug, loading: addLoading } = useAddBug();
+    const [deleteTargetId, setDeleteTargetId] = useState(null);
+    const { deleteBug, loading: deleteLoading } = useDeleteBug();
 
     const handleEditSubmit = async (form) => {
         if (editLoading) return; // Prevent duplicate submits
@@ -58,6 +63,15 @@ const BugTable = () => {
         }
     }
 
+    const handleConfirmDelete = async () => {
+        if (!deleteTargetId) return;
+        const success = await deleteBug(deleteTargetId);
+        if (success) {
+            setDeleteTargetId(null);
+            reloadBugData();
+        }
+    };
+
     if (loading) return <Box textAlign="center"><CircularProgress/></Box>;
     if (error) return <Box color="error.main">Failed to load bugs.</Box>;
 
@@ -73,7 +87,9 @@ const BugTable = () => {
         <Table>
             <TableHead>
                 <TableRow>
-                    {/* Edit icon column */}
+                    {/* Edit column */}
+                    <TableCell />
+                    {/* Delete column */}
                     <TableCell />
                     <SortableHeaderCell
                         columnKey="bugId"
@@ -123,6 +139,11 @@ const BugTable = () => {
                                     <EditIcon fontSize="small" />
                                 </IconButton>
                             </TableCell>
+                            <TableCell>
+                                <IconButton onClick={() => setDeleteTargetId(bug.id)}>
+                                    <DeleteIcon fontSize="small" sx={{ color: 'error.main' }} />
+                                </IconButton>
+                            </TableCell>
                             <TableCell>{bug.bugId}</TableCell>
                             <TableCell>{bug.description}</TableCell>
                             <TableCell>{bug.severity}</TableCell>
@@ -134,6 +155,12 @@ const BugTable = () => {
             </TableBody>
         </Table>
     </TableContainer>
+            <ConfirmDeleteModal
+                open={!!deleteTargetId}
+                onClose={() => setDeleteTargetId(null)}
+                onConfirm={handleConfirmDelete}
+                loading={deleteLoading}
+            />
     </>
     )
 };

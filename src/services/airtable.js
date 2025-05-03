@@ -32,3 +32,7 @@ export const updateBugRecord = async (recordId, updates) => {
 export const addBugRecord = async (fields) => {
     return base(TABLE_NAME).create([{ fields }]);
 };
+
+export const deleteBugRecord = async (recordId) => {
+    return base(TABLE_NAME).destroy(recordId);
+};
