@@ -1,4 +1,5 @@
 import Airtable from 'airtable';
+import axios from 'axios';
 
 // insecure, but that's ok for this demo
 const AIRTABLE_API_KEY = 'patrTBLwlB8V3GnEX.5f1723ef8491ff8a04a7c6d9ac393b092329f2e348c10550247f09d808cf13d9';
@@ -34,5 +35,15 @@ export const addBugRecord = async (fields) => {
 };
 
 export const deleteBugRecord = async (recordId) => {
-    return base(TABLE_NAME).destroy(recordId);
+    const url = `https://api.airtable.com/v0/${BASE_ID}/${TABLE_NAME}/${recordId}`;
+
+    try {
+        await axios.delete(url, {
+            headers: {
+                Authorization: `Bearer ${AIRTABLE_API_KEY}`,
+            },
+        });
+    } catch (err) {
+        console.error('Error deleting bug:', err);
+    }
 };
